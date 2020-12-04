@@ -3,7 +3,7 @@ import pathlib
 
 import pandas as pd
 
-DATADIR = pathlib.Path(__file__).parent / "data"
+DATADIR = pathlib.Path(__file__).parent.parent / "data"
 EMISSIONS_DIR = "OWID_co2-and-other-ghg-emissions"
 CUMULATIVE_EMISSIONS_FILE = "cumulative-co-emissions.csv"
 
@@ -24,16 +24,17 @@ df_cumulative_emissions.columns = [
 ]
 
 
-df_co2_cumulative_countries = df_co2_cumulative[
-    (~df_co2_cumulative["code"].isna()) & (df_co2_cumulative.entity != "World")
+df_co2_cumulative_countries = df_cumulative_emissions[
+    (~df_cumulative_emissions["code"].isna())
+    & (df_cumulative_emissions.entity != "World")
 ]
-df_co2_cumulative_with_population = df_co2_cumulative.set_index(
-    ["code", "year"]
-).join(
-    df_co2_gdp[["population", "code", "year"]].set_index(["code", "year"]),
-    on=["code", "year"],
-)
-df_co2_cumulative_countries_2018 = df_co2_cumulative_countries.query(
+# df_co2_cumulative_with_population = df_cumulative_emissions.set_index(
+#     ["code", "year"]
+# ).join(
+#     df_co2_gdp[["population", "code", "year"]].set_index(["code", "year"]),
+#     on=["code", "year"],
+# )
+df_co2_cumulative_countries_2018 = df_cumulative_emissions.query(
     "year==2018"
 ).copy()
 

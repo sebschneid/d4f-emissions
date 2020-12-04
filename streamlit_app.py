@@ -1,4 +1,6 @@
 import streamlit as st
+import plotly.express as px
+
 from d4f_emissions.data import df_co2_cumulative_with_continents
 
 fig = px.sunburst(
